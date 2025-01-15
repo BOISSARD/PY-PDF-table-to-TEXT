@@ -1,4 +1,5 @@
 import pdfplumber
+from matrice import Matrice 
 
 def table_to_markdown(raw_table):
     """
@@ -8,19 +9,35 @@ def table_to_markdown(raw_table):
     markdown = []
     cur_ligne = 0
     cur_col = 0
+    # matrix = Matrice()
     for row_idx, row in enumerate(raw_table):
-        print("row", row_idx, row)
+        print("row", row_idx)
         
         # A partir de la row de raw_table on va construire les row réelles du tableau, notamment car si il n'y a pas de séparateur (border) alors ce n'est parfois pas considéré comme une nouvelle row et ça ajoute juste un saut à la ligne dans la cellule et ceux pour toutes les colonnes de la row
-        new_markdown_rows = []
+        new_markdown_rows = Matrice()
+        
+        max_height = max(len(cel.split("\n")) if cel else 1 for cel in row)
+        print(max_height)
         
         for cel_idx, cel in enumerate(row):
-            print("cel", cel_idx)
+            # Ajouter des lignes vides pour combler la hauteur restante
+            for i in range(0, max_height):
+                new_markdown_rows.set("", i, cel_idx)
+            
+            # print("cel", cel_idx)
             if not cel :
-                new_markdown_rows.append
+                new_markdown_rows.set(cel, 0, cel_idx)
+                # for i in range(max_height):
+                #     new_markdown_rows.set("", i, cel_idx)
+                continue
                 
             textes = cel.split("\n")
-            print(textes)
+            # print(textes)
+            for texte_idx, texte in enumerate(textes) :
+                new_markdown_rows.set(texte, texte_idx, cel_idx)
+            
+            
+        print(new_markdown_rows)
         
         # markdown.
     
