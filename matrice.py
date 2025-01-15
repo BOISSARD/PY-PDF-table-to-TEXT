@@ -7,8 +7,9 @@ class Matrice :
         """
         Initialise une matrice vide.
         """
-        self.matrix = []
+        self.matrix = None
         if matrix:
+            self.matrix = []
             for i, row in enumerate(matrix):
                 for j, value in enumerate(row):
                     self.set(value, i, j)
@@ -26,11 +27,9 @@ class Matrice :
             col_idx (int): L'index de la colonne.
         """
         # Ajouter des lignes si nécessaire
+        if not self.matrix : self.matrix = []
         while len(self.matrix) <= row_idx:
             self.matrix.append([])
-
-        # Trouver le nombre maximal de colonnes existantes
-        max_cols = max((len(row) for row in self.matrix), default=0)
 
         # Étendre toutes les lignes pour qu'elles aient au moins col_idx + 1 colonnes
         for row in self.matrix:
@@ -50,10 +49,11 @@ class Matrice :
         Returns:
             int: La largeur maximale des éléments dans la colonne spécifiée.
         """
+        if not self.matrix : return 1        
         return max(
             len(str(row[col_idx])) if col_idx < len(row) and row[col_idx] is not None else 4
             for row in self.matrix
-        )
+        ) + 2
 
     def __str__(self):
         """
@@ -64,13 +64,13 @@ class Matrice :
 
         col_widths = []
         max_cols = max(len(row) for row in self.matrix)
-        col_widths = [self.get_column_str_width(col_idx) for col_idx in range(max_cols)]
+        col_widths = [self.get_column_str_width(col_idx) -2 for col_idx in range(max_cols)]
 
         rows = []
         for row in self.matrix:
             # Formater chaque ligne avec les colonnes alignées individuellement
             formatted_row = " | ".join(
-                f"{str(row[col_idx]) if col_idx < len(row) and row[col_idx] is not None else 'None':>{col_widths[col_idx]}}"
+                f"{str(row[col_idx]) if col_idx < len(row) and row[col_idx] is not None else 'None':>{(col_widths[col_idx])}}"
                 for col_idx in range(max_cols)
             )
             rows.append(f"| {formatted_row} |")
@@ -88,4 +88,4 @@ if True :
     matrice.set(88, 0, 4) # Ajout à une colonne existante
     print("Modifiée :"); print(matrice)
     print(matrice.to_list())
-    print(Matrice())
+    print(Matrice(), Matrice().get_column_str_width(0))
