@@ -1,4 +1,4 @@
-from functions3 import * 
+from functions import * 
 import sys
 
 # Chemin vers le fichier PDF
