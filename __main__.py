@@ -1,7 +1,8 @@
 from functions3 import * 
+import sys
 
 # Chemin vers le fichier PDF
-file_name = f"facture{1}"
+file_name = sys.argv[1] if len(sys.argv) > 1 else f"facture{1}"
 
 # Appeler la fonction
 input_file_name = f"Factures PDF/{file_name}.pdf"

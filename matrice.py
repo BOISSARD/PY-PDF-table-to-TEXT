@@ -80,7 +80,7 @@ class Matrice :
     def to_list(self) :
         return self.matrix
             
-if True :
+if False :
     # matrice = Matrice([ [1, 2, 3], [4, 5, 6] ])
     matrice = Matrice([ [1, 2], [3], [4, 5, 6] ])
     print("Initial :"); print(matrice)
